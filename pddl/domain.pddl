@@ -32,7 +32,7 @@
     ;;      colour than the first one.
     (:action shoot-partial-row
         ;; ?r - what row we are shooting
-        ;; ?f ?t - from and to, the range that we are trying to remove from the board
+        ;; ?t - from and to, the range that we are trying to remove from the board
         ;; ?c - the colour of the range
         :parameters (?r - number ?t - number ?c - colour)
         :precondition
@@ -185,6 +185,8 @@
                         (forall (?nextcolour - colour)
                             (when
                                 (and
+                                    (not (isbottomrow ?t)) ;; MODIFIED
+                                    (not (= ?nextcolour null))
                                     (succ ?runningrow ?t)
                                     (coloured ?runningrow ?column ?nextcolour))
                                 (and
@@ -481,6 +483,8 @@
                         (and 
                             (when 
                                 (and
+                                    ;; we are not the last row before ground
+                                    (not (isbottomrow ?r))
                                     ;; there is another row down this one
                                     (succ ?nextrow ?r)
                                     ;; and we are on the last column
